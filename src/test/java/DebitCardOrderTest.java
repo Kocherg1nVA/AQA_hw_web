@@ -58,7 +58,7 @@ public class DebitCardOrderTest {
     }
 
     @Test
-    public void WrongNameForm(){
+    public void shouldWrongNameForm(){
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Kochergin Vadim");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991951481");
         driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
@@ -68,7 +68,7 @@ public class DebitCardOrderTest {
     }
 
     @Test
-    public void WrongPhoneNumber(){
+    public void shouldWrongPhoneNumber(){
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Кочергин Вадим");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("481");
         driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
