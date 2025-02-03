@@ -25,7 +25,7 @@ public class DebitCardOrderTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
+//        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get("http://localhost:9999");
     }
@@ -75,5 +75,34 @@ public class DebitCardOrderTest {
         driver.findElement(By.cssSelector("button")).click();
         String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actual.trim() );
+    }
+    @Test
+    public void emptyInputFieldName(){
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991951481");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
+        driver.findElement(By.cssSelector("button")).click();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals("Поле обязательно для заполнения", actual.trim());
+    }
+
+    @Test
+    public void emptyInputFieldPhone(){
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Кочергин Вадим");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
+        driver.findElement(By.cssSelector("button")).click();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
+        assertEquals("Поле обязательно для заполнения", actual.trim() );
+    }
+
+    @Test
+    public void emptyAgreementCheckBox(){
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Кочергин Вадим");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991951481");
+        driver.findElement(By.cssSelector("button")).click();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='agreement'].input_invalid .checkbox__text")).getText();
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю " +
+                "сделать запрос в бюро кредитных историй", actual.trim() );
     }
 }
