@@ -57,4 +57,23 @@ public class DebitCardOrderTest {
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", result.trim());
     }
 
+    @Test
+    public void WrongNameForm(){
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Kochergin Vadim");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79991951481");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
+        driver.findElement(By.cssSelector("button")).click();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actual.trim());
+    }
+
+    @Test
+    public void WrongPhoneNumber(){
+        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Кочергин Вадим");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("481");
+        driver.findElement(By.cssSelector("[data-test-id='agreement'] span.checkbox__box")).click();
+        driver.findElement(By.cssSelector("button")).click();
+        String actual = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
+        assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actual.trim() );
+    }
 }
